@@ -15,9 +15,11 @@ from ui import userInput
 
 AMOUNT_MULT = 50
 PROCENT_PERIOD = 3
-PROCENTAGE = 3
+PROCENTAGE = 3 * 0.01
 WEALTH_LIMIT = 5_000_000
-WEALTH_TAX = 10
+WEALTH_TAX = 10 * 0.01
+WITHDRAW_TAX = 1.5 * 0.01
+WITHDRAW_TAX_LIMITS = (30, 600)
 
 balance = 0
 
@@ -67,12 +69,17 @@ def withdraw():
             print("Ошибочная операция!")
             withholdTax()
     
-    balance -= amount
+    withdrawProcent = amount * WITHDRAW_TAX
+    withdrawProcent = 30 if withdrawProcent < 30 \
+        else 600 if withdrawProcent > 600 \
+        else withdrawProcent
+    balance -= amount * (1 + withdrawProcent)
+    print(f"Удержан процент за снятие: {withdrawProcent:_.2f}")
 
 
 def chargeProcents():
     global balance
-    procents = balance * PROCENTAGE / 100
+    procents = balance * PROCENTAGE
     balance += procents
     print(f"Были начислены проценты: {procents:_.2f}")
 
@@ -80,7 +87,7 @@ def chargeProcents():
 def withholdTax():
     global balance
     if balance >= WEALTH_LIMIT:
-        tax = balance * WEALTH_TAX / 100
+        tax = balance * WEALTH_TAX
         balance -= tax
         print(f"Был удержан налог на богатство: {tax:_.2f}")
     
