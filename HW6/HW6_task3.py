@@ -71,11 +71,11 @@ def getQueens(board: list[list[int]]) -> list[tuple[int, int]]:
     ]
 
 
-def findCombs(board: list[list[int]], rowList: list[int], resList: list[int]) -> None:
+def findCombs(board: list[list[int]], rowList: list[int], resList: list[list[tuple[int, int]]]) -> None:
     """
     Рекурсивная функция для поиска комбинаций мирных ферзей
 
-    rowList: список доступных диагоналей
+    rowList: список доступных строк
     """
     i = rowList.pop()
     for j in random.sample(list(range(BOARD_SIZE)), BOARD_SIZE):
