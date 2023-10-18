@@ -12,7 +12,6 @@ from itertools import combinations
 import random
 
 BOARD_SIZE = 8
-QUEENS_NUM = 8
 PEACE_COMB_NUM = 4 # ограничитель комбинаций, 0 - все комбинации
 
 
@@ -79,9 +78,7 @@ def findCombs(board: list[list[int]], rowList: list[int], resList: list[int]) ->
     rowList: список доступных диагоналей
     """
     i = rowList.pop()
-    colList = list(range(BOARD_SIZE))
-    random.shuffle(colList)
-    for j in colList:
+    for j in random.sample(list(range(BOARD_SIZE)), BOARD_SIZE):
         if board[i][j] == 0: # если поле свободно и не под боем
             setQueen(board, i, j)
             if not rowList: # условие выхода из рекурсии
@@ -96,7 +93,7 @@ def generate_boards() -> list[list[tuple[int, int]]]:
     board = [[0] * BOARD_SIZE for _ in range(BOARD_SIZE)]
         
     resList = []
-    rowList = random.sample(list(range(BOARD_SIZE)), QUEENS_NUM)
+    rowList = random.sample(list(range(BOARD_SIZE)), BOARD_SIZE)
     findCombs(board, rowList, resList)
     
     return resList
