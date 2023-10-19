@@ -78,7 +78,7 @@ def findCombs(board: list[list[int]], rowList: list[int], resList: list[list[tup
     rowList: список доступных строк
     """
     i = rowList.pop()
-    for j in random.sample(list(range(BOARD_SIZE)), BOARD_SIZE):
+    for j in random.sample(range(BOARD_SIZE), BOARD_SIZE):
         if board[i][j] == 0: # если поле свободно и не под боем
             setQueen(board, i, j)
             if not rowList: # условие выхода из рекурсии
@@ -93,7 +93,7 @@ def generate_boards() -> list[list[tuple[int, int]]]:
     board = [[0] * BOARD_SIZE for _ in range(BOARD_SIZE)]
         
     resList = []
-    rowList = random.sample(list(range(BOARD_SIZE)), BOARD_SIZE)
+    rowList = random.sample(range(BOARD_SIZE), BOARD_SIZE)
     findCombs(board, rowList, resList)
     
     return resList
