@@ -1,12 +1,6 @@
-# if __name__ == "__main__":
-#     import task4
-#     import task6
-# else:
-#     from . import task4
-#     from . import task6
-from task4 import guess
-from task6 import setStat, printStat
-
+if len(__name__.split(".")) > 1:
+    from .task4 import *
+    from .task6 import setStat
 
 __all__ = [
     "allRiddles",
@@ -27,6 +21,8 @@ def allRiddles(riddles=RIDDLES):
 
 
 if __name__ == "__main__":
+    from task4 import *
+    from task6 import setStat, printStat
     
     allRiddles(dict(tuple(RIDDLES.items())[:1]))
     printStat()
