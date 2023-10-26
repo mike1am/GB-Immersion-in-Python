@@ -12,16 +12,17 @@ def rename_files(desired_name="new_file_", num_digits=3, source_ext="txt", targe
     backDir = os.getcwd()
     os.chdir(test_folder)
     
-    fileCount = 1
-    for file in os.listdir().sort():
-        name, ext = os.path.splitext(file)
-        if ext[1:] == source_ext:
-            name = (name[name_range[0]-1:name_range[1]] if name_range else "") + desired_name
-            name += str(fileCount).zfill(num_digits)
-            os.rename(file, name + "." + target_ext)
-            fileCount += 1
-
-    os.chdir(backDir)
+    try:
+        fileCount = 1
+        for file in os.listdir().sort():
+            name, ext = os.path.splitext(file)
+            if ext[1:] == source_ext:
+                name = (name[name_range[0]-1:name_range[1]] if name_range else "") + desired_name
+                name += str(fileCount).zfill(num_digits)
+                os.rename(file, name + "." + target_ext)
+                fileCount += 1
+    finally:
+        os.chdir(backDir)
 
 
 if __name__ == "__main__":

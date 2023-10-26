@@ -124,7 +124,7 @@ def pract7_func4(ext, minNameLen=6, maxNameLen=30, minFileLen=256, maxFileLen=40
         addNum = 0
         while os.path.exists(fullName):
             addNum += 1
-            addSuff = f"_{addNum:>03}"
+            addSuff = f"_{addNum:03}"
             fullName = os.path.join(test_folder, f"{name + addSuff}.{ext}")
         
         with open(fullName, "wb") as outFile:
