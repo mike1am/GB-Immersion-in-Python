@@ -7,37 +7,8 @@
 
 Список из 4х комбинаций координат сохраните в board_list. Дополнительно печатать его не надо.
 """
-
-from itertools import combinations
 import random
-
-BOARD_SIZE = 8
-PEACE_COMB_NUM = 4 # ограничитель комбинаций, 0 - все комбинации
-
-
-def is_attacking(q1: tuple[int, int], q2: tuple[int, int]) -> bool:
-    return \
-        q1[0] == q2[0] \
-        or q1[1] == q2[1] \
-        or abs(q2[0] - q1[0]) == abs(q2[1] - q1[1])
-
-
-def check_queens(queens: list[tuple[int, int]]) -> bool:
-    for q1, q2 in combinations(queens, 2):
-        if is_attacking(q1, q2):
-            return False
-    return True
-
-
-def printBoard(queens: list[tuple[int, int]]) -> None:
-    board = [["·"] * BOARD_SIZE for _ in range(BOARD_SIZE)]
-    
-    for i, j in queens:
-        board[i][j] = chr(0x2655)
-
-    print(" ", "".join([f"{n:>3}" for n in range(BOARD_SIZE)]))
-    for n, row in enumerate(board):
-        print(f"{n:>2} ", "  ".join(row))
+import HW6_task3_funcs as funcs
 
 
 def setQueen(board: list[list[int]], i: int, j: int, rem: bool = False) -> None:
@@ -48,12 +19,12 @@ def setQueen(board: list[list[int]], i: int, j: int, rem: bool = False) -> None:
     """
     inc = -1 if not rem else 1
     
-    for k in range(BOARD_SIZE):
-        board[i][k] += inc
-        board[k][j] += inc
-        if 0 <= i + j - k < BOARD_SIZE:
+    for k in range(len(board)):
+        board[i][k] += inc # по строке
+        board[k][j] += inc # по столбцу
+        if 0 <= i + j - k < len(board):
             board[i + j - k][k] += inc # диагональ л.н. - п.в.
-        if 0 <= i - j + k < BOARD_SIZE:
+        if 0 <= i - j + k < len(board):
             board[i - j + k][k] += inc # диагональ л.в. - п.н.
     
     board[i][j] = 1 if not rem else 0
@@ -65,36 +36,43 @@ def getQueens(board: list[list[int]]) -> list[tuple[int, int]]:
     """
     return [
         (i, j)
-        for j in range(BOARD_SIZE)
-        for i in range(BOARD_SIZE)
+        for j in range(len(board))
+        for i in range(len(board))
         if board[i][j] == 1
     ]
 
 
-def findCombs(board: list[list[int]], rowList: list[int], resList: list[list[tuple[int, int]]]) -> None:
+def findCombs(board: list[list[int]], rowList: list[int], resList: list[list[tuple[int, int]]], solNum) -> None:
     """
     Рекурсивная функция для поиска комбинаций мирных ферзей
 
     rowList: список доступных строк
     """
     i = rowList.pop()
-    for j in random.sample(range(BOARD_SIZE), BOARD_SIZE):
+    for j in random.sample(range(len(board)), len(board)):
         if board[i][j] == 0: # если поле свободно и не под боем
             setQueen(board, i, j)
             if not rowList: # условие выхода из рекурсии
                 resList.append(getQueens(board))
-            elif not PEACE_COMB_NUM or len(resList) < PEACE_COMB_NUM: # доп. условие выхода из рекурсии
-                findCombs(board, rowList, resList)
+            elif not solNum or len(resList) < solNum: # доп. условие выхода из рекурсии
+                findCombs(board, rowList, resList, solNum)
             setQueen(board, i, j, rem=True) # возвращение состояния для поиска след. комбинации
     rowList.append(i) # возвращение состояния для вышележащего уровня рекурсии
 
 
-def generate_boards() -> list[list[tuple[int, int]]]:
-    board = [[0] * BOARD_SIZE for _ in range(BOARD_SIZE)]
+def generate_boards(boardSize=8, solNum=0) -> list[list[tuple[int, int]]]:
+    """
+    Возвращает список решений
+
+    Args:
+        boardSize: Размер доски
+        solNum: Ограничение кол-ва решений. 0 - все
+    """
+    board = [[0] * boardSize for _ in range(boardSize)]
         
     resList = []
-    rowList = random.sample(range(BOARD_SIZE), BOARD_SIZE)
-    findCombs(board, rowList, resList)
+    rowList = random.sample(range(boardSize), boardSize)
+    findCombs(board, rowList, resList, solNum)
     
     return resList
 
@@ -103,12 +81,12 @@ if __name__ == "__main__":
     import time
     startTime = time.time()
 
-    board_list = generate_boards() 
+    board_list = generate_boards(10, 4) 
     # print(len(board_list))
     print(time.time() - startTime)
     
     for n, queens in enumerate(board_list):
         print(f"\n{n + 1}.")
-        printBoard(queens)
+        funcs.printBoard(queens)
         print(queens)
-        print(check_queens(queens))
+        print(funcs.check_queens(queens))
