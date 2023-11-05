@@ -1,13 +1,15 @@
 from itertools import combinations
+import time
 
-def printBoard(queens: list[tuple[int, int]]) -> None:
+
+def printBoard(queens: list[tuple[int, int]], size: int) -> None:
     """
     Выводит решение в терминал.
 
     Args:
-        queens: Список картежей с координатами ферзей на доске.
+        queens: Список картежей с координатами ферзей на доске
+        size: Размер доски
     """
-    size = len(queens)
     board = [["·"] * size for _ in range(size)]
     
     for i, j in queens:
@@ -30,3 +32,15 @@ def check_queens(queens: list[tuple[int, int]]) -> bool:
         if is_attacking(q1, q2):
             return False
     return True
+
+
+def logTime(func):
+    def wrapper(*args, **kwargs):
+        start = time.perf_counter()
+        
+        res = func(*args, **kwargs)
+        
+        print(f"{func.__name__}: {time.perf_counter() - start}")
+        return res
+    
+    return wrapper

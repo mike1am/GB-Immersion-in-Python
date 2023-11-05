@@ -120,28 +120,30 @@ def generate_boards(boardSize=8, solNum=0) -> list[list[tuple[int, int]]]:
 if __name__ == "__main__":
     import time
 
+    BOARD_SIZE = 50
+    SOL_NUM = 5
+        
     # numpy - манипуляции с треугольниками
-    startTime = time.time()
-    board_list = generate_boards(10) 
-    print(len(board_list))
-    print(time.time() - startTime)
+    generate_boards = funcs.logTime(generate_boards)
+
+    # board_list = generate_boards(BOARD_SIZE, SOL_NUM) 
+    # print(len(board_list))
 
     # numpy - формирование массивов индексов
     setQueen = setQueen1
-    startTime = time.time()
-    board_list = generate_boards(10) 
+
+    board_list = generate_boards(BOARD_SIZE, SOL_NUM)
     print(len(board_list))
-    print(time.time() - startTime)
     
     # чистый python
     import HW6_task3 as wo_np
-    startTime = time.time()
-    board_list = wo_np.generate_boards(10)
+    generate_boards = funcs.logTime(wo_np.generate_boards)
+
+    board_list = generate_boards(BOARD_SIZE, SOL_NUM)
     print(len(board_list))
-    print(time.time() - startTime)
     
     # for n, queens in enumerate(board_list):
     #     print(f"\n{n + 1}.")
-    #     funcs.printBoard(queens)
+    #     funcs.printBoard(queens, BOARD_SIZE)
     #     print(queens)
     #     print(funcs.check_queens(queens))

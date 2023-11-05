@@ -8,7 +8,7 @@ def guessNum(lowerLimit=0, upperLimit=100, attLimit=10):
     for att in range(1, attLimit + 1):
         attNum = int(input(f"Попытка {att} из {attLimit}. Введите число: "))
         if attNum == num:
-            print(f"\033[33mУра, Вы угадали!\033[0m")
+            print(f"\033[33m<< {num} >>  Ура, Вы угадали!\033[0m")
             return True
         
         if attNum > num:
@@ -16,7 +16,7 @@ def guessNum(lowerLimit=0, upperLimit=100, attLimit=10):
         else:
             print(f"\033[31mБольше, чем {attNum}\033[0m")
 
-    print(f"Вам не хватило попыток((. Это было число {num}")
+    print(f"Вам не хватило попыток((  Это было число {num}")
     return False
     
 

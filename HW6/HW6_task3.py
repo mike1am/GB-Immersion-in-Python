@@ -79,14 +79,17 @@ def generate_boards(boardSize=8, solNum=0) -> list[list[tuple[int, int]]]:
 
 if __name__ == "__main__":
     import time
+    BOARD_SIZE = 10
+    SOL_NUM = 4
+
     startTime = time.time()
 
-    board_list = generate_boards(10, 4) 
+    board_list = generate_boards(BOARD_SIZE, SOL_NUM) 
     # print(len(board_list))
     print(time.time() - startTime)
     
     for n, queens in enumerate(board_list):
         print(f"\n{n + 1}.")
-        funcs.printBoard(queens)
+        funcs.printBoard(queens, BOARD_SIZE)
         print(queens)
         print(funcs.check_queens(queens))
