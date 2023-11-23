@@ -1,7 +1,6 @@
 from random import randint
 
 def guessNum(lowerLimit=0, upperLimit=100, attLimit=10):
-
     num = randint(lowerLimit, upperLimit) 
     print(f"Угадайте число от {lowerLimit} до {upperLimit}")
 
