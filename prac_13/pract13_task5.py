@@ -189,7 +189,7 @@ class Project:
     def __init__(self, userSet) -> None:
         self.userSet = userSet
 
-    def auth(self):
+    def auth(self, inputFunc=fieldInput):
         """
         Процедура аутентификации. В диалоге запрашивает имя и ид. пользователя.
         Сохраняет в атрибуте класса actUser пользователя, прошедшего аутентификацию.
@@ -197,7 +197,7 @@ class Project:
         while True:
             try:
                 if self.userSet:
-                    uName, uId = fieldInput("Введите имя и ид. пользователя для аутентификации: ", 2)
+                    uName, uId = inputFunc("Введите имя и ид. пользователя для аутентификации: ", 2)
                     if User(uName, uId, "1") in self.userSet:
                         actUser = self.userSet[uId]
                         if actUser.name == uName:
@@ -208,7 +208,7 @@ class Project:
                     else:
                         raise exc.UserAccessError("Пользователь не найден")
                 else:
-                    uName, uId, accLevel = fieldInput(
+                    uName, uId, accLevel = inputFunc(
                         "\nВведите данные первого пользователя: Имя, Ид., Уровень доступа" + \
                         "\nПользователь будет использован для дальнейшей аутентификации > ",
                         3
@@ -220,11 +220,11 @@ class Project:
             except exc.UserError as err:
                 printErr(err)
 
-    def go(self):
+    def go(self, inpFunc=fieldInput):
         """
         Основной цикл проекта - запрос данных добавляемых пользователей.
         """
-        for user in LoopInput(User):
+        for user in LoopInput(User, inpFunc):
             try:
                 if user in self.userSet:
                     raise exc.AttrValueError("Такой идентификатор пользователя уже есть")
