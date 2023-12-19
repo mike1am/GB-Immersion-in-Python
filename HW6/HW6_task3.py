@@ -60,7 +60,7 @@ def findCombs(board: list[list[int]], rowList: list[int], resList: list[list[tup
     rowList.append(i) # возвращение состояния для вышележащего уровня рекурсии
 
 
-def generate_boards(boardSize=8, solNum=0) -> list[list[tuple[int, int]]]:
+def generate_boards(boardSize=8, solNum=4) -> list[list[tuple[int, int]]]:
     """
     Возвращает список решений
 
@@ -79,12 +79,12 @@ def generate_boards(boardSize=8, solNum=0) -> list[list[tuple[int, int]]]:
 
 if __name__ == "__main__":
     import time
-    BOARD_SIZE = 10
+    BOARD_SIZE = 8
     SOL_NUM = 4
 
     startTime = time.time()
 
-    board_list = generate_boards(BOARD_SIZE, SOL_NUM) 
+    board_list = generate_boards(BOARD_SIZE, SOL_NUM)
     # print(len(board_list))
     print(time.time() - startTime)
     
@@ -93,3 +93,9 @@ if __name__ == "__main__":
         funcs.printBoard(queens, BOARD_SIZE)
         print(queens)
         print(funcs.check_queens(queens))
+
+    board_list = generate_boards()
+    if len(board_list) != 4:
+        print("Вы собрали не то количество комбинаций")
+    else:
+        print("Отлично!")
